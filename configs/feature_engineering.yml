@@ -1,0 +1,21 @@
+feature_engineering:
+  date_column: 'date'
+  grouping_column: 'site_id'
+  output_period: 365
+  temporal_features:
+    - 'hour'
+    - 'day_of_week'
+    - 'month'
+    - 'year'
+  fourier_features:
+    - 'sin365'
+    - 'cos365'
+  data_paths:
+    input_train: 'data/raw/Train_data_with_elevation.csv'
+    output_train: 'data/processed/Train_data_engineered.csv'
+    input_test: 'data/raw/Test_data_with_elevation.csv'
+    output_test: 'data/processed/Test_data_engineered.csv'
+
+    # input_train: 'data/raw/Train_data_with_elevation.csv'
+    # data/raw/preprocessed_test_data.csv
+    

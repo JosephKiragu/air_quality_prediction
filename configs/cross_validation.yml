@@ -1,0 +1,17 @@
+cross_validation:
+  n_splits: 10
+  random_state: 149
+  shuffle: true
+  drop_columns:
+    - 'id'
+    - 'site_id'
+    - 'city'
+    - 'country'
+    - 'date'
+  target_column: 'pm2_5'
+  data_paths:
+    input_train: 'data/processed/Train_data_engineered.csv'
+    input_test: 'data/processed/Test_data_engineered.csv'
+  output_paths:
+    validation_scores: 'output/logs/cross_validation_scores.csv'
+    

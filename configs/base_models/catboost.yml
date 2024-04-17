@@ -1,0 +1,47 @@
+catboost_model:
+  parameters:
+    bootstrap_type: 'Bernoulli'
+    verbose: True
+    n_estimators: 1000
+    od_wait: 50
+    learning_rate: 0.1
+    reg_lambda: 1
+    subsample: 0.8
+    random_strength: 1
+    depth: 6
+    min_data_in_leaf: 1
+    leaf_estimation_iterations: 8
+    loss_function: 'RMSE'
+    random_seed: 149
+
+  train_params:
+    early_stopping_rounds: 50
+    plot: True
+
+  hyperparameter_tuning:
+    enable: True
+    method: 'grid_search'
+    param_grid:
+      n_estimators: [500, 1200, 1700]
+      learning_rate: [0.01, 0.05, 0.1]
+      depth: [4, 6, 8]
+      subsample: [0.6, 0.8, 1.0]
+      reg_lambda: [0.1, 1, 10]
+    cv: 10
+    scoring: 'neg_mean_squared_error'
+    verbose: True
+
+  train:
+    train_data_path: 'data/processed/Train_data_engineered.csv'
+    test_data_path: 'data/processed/Test_data_engineered.csv'
+
+  output:
+    model_output_path: 'outputs/models/catboost_model.pkl'
+    prediction_output_path: 'outputs/predictions/catboost_predictions.csv'
+
+  model_saving:
+    enable: True
+    directory: 'outputs/models'
+    filename: 'tuned_catboost_model.pkl'
+
+

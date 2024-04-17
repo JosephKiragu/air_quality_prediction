@@ -1,0 +1,57 @@
+xgboost_model:
+  parameters:
+    max_depth: 6
+    min_child_weight: 1
+    learning_rate: 0.3
+    n_estimators: 100
+    objective: 'reg:squarederror'
+    booster: 'gbtree'
+    gamma: 0
+    subsample: 0.8
+    colsample_bytree: 0.4
+    colsample_bylevel: 1
+    reg_alpha: 75
+    reg_lambda: 19
+    scale_pos_weight: 1
+    base_score: 0.5
+    random_state: 149
+
+  train_params:
+    early_stopping_rounds: 50
+    verbose: True
+
+  hyperparameter_tuning:
+    enable: True
+    method: 'random_search'
+    n_iter: 50
+    param_grid:
+      max_depth: [4, 5, 6, 7]
+      min_child_weight: [3, 4, 6]
+      gamma: [0, 0.1, 0.3, 0.4]
+      subsample: [0.5, 0.6, 0.8]
+      colsample_bytree: [0.6, 0.7, 0.8, 0.9]
+      learning_rate: [0.001, 0.01, 0.05, 0.2]
+      n_estimators: [1300, 2000, 2600, 3000]
+    scoring: 'neg_mean_squared_error'
+    random_state: 149
+
+
+  train:
+    train_data_path: 'data/processed/Train_data_engineered.csv'
+    test_data_path:  'data/processed/Test_data_engineered.csv'
+  output:
+    model_output_path: 'output/models/xgboost_model.pkl'
+    prediction_output_path: 'output/predictions/xgboost_predictions.csv'
+  perfomances:
+    eval_metric: 'rmse'
+    # early_stopping_rounds: 10
+
+  model_saving:
+    enable: True
+    directory: 'outputs/models'
+    filename: 'tuned_xgboost_model.pkl'
+  
+
+    
+
+
