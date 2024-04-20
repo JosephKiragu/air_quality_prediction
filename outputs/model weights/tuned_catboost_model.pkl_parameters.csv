@@ -1,0 +1,2 @@
+learning_rate,depth,loss_function,od_wait,leaf_estimation_iterations,random_seed,verbose,random_strength,bootstrap_type,subsample,n_estimators,reg_lambda,min_data_in_leaf
+0.05,6,RMSE,50,8,149,True,12,Bernoulli,0.8,1100,55,1

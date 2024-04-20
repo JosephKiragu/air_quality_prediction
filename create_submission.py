@@ -11,10 +11,16 @@ def create_submission(test_data_path, predictions, output_path):
 
 if __name__ == '__main__':
 	test_data_path = 'data/processed/Test_data_engineered.csv'
-	predictions_path = 'outputs/predictions/xgboost_predictions.csv'
-	output_path = 'outputs/submissions/xgboost_submission.csv'
+	# predictions_path = 'outputs/predictions/xgboost_predictions.csv'
+	# output_path = 'outputs/submissions/xgboost_submission.csv'
+ 
 	# predictions_path = 'outputs/predictions/lightgbm_predictions.csv'
 	# output_path = 'outputs/submissions/lightgbm_submission.csv'
+ 
+	predictions_path = 'outputs/predictions/catboost_predictions.csv'
+	output_path = 'outputs/submissions/catboost_submission.csv'
+
+
 
 	predictions = pd.read_csv(predictions_path)['pm2_5'].values
 	create_submission(test_data_path, predictions, output_path)

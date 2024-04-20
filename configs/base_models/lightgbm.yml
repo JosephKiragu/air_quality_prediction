@@ -3,17 +3,20 @@ lightgbm_model:
     objective: 'regression'
     metric: 'rmse'
     boosting_type: 'gbdt'
-    num_leaves: 31
-    learning_rate: 0.1
-    n_estimators: 100
-    subsample: 0.8
-    colsample_bytree: 0.8
-    reg_alpha: 0
-    reg_lambda: 0
+    num_leaves: 26
+    learning_rate: 0.006
+    n_estimators: 6257
+    subsample: 0.7
+    colsample_bytree: 0.7
+    reg_alpha: 0.8
+    reg_lambda: 0.8
+    cat_smooth: 16
+    min_child_samples: 20
+    max_depth: 2
     random_state: 149
     
   train_params:
-    # early_stopping_rounds: 10
+    early_stopping_rounds: 50
     verbose: True
 
   hyperparameter_tuning:
@@ -21,13 +24,16 @@ lightgbm_model:
     method: 'random_search'
     n_iter: 50
     param_grid:
-      num_leaves: [15,31,63,127]
-      learning_rate: [0.01, 0.05, 0.1, 0.2]
-      n_estimators: [50, 100, 150, 200]
+      num_leaves: [18,31,50]
+      learning_rate: [0, 0.05, 0.1, 0.2]
+      n_estimators: [5000, 7000]
       subsample: [0.6, 0.7, 0.8, 0.9]
       colsample_bytree: [0.6, 0.7, 0.8, 0.9]
-      reg_alpha: [0, 0.1, 0.5, 1]
+      reg_alpha: [0, 1.5]
       reg_lambda: [0, 0.1, 0.5, 1]
+      cat_smooth: [12, 20]
+      min_child_samples: [15, 30]
+      max_depth: [1, 4]
     scoring: 'neg_mean_squared_error'
     random_state: 149
 

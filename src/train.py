@@ -28,10 +28,10 @@ def train_catboost_model(config_path):
 	model.save_model()
 
 if __name__ == '__main__':
-	xgboost_config_path = 'configs/base_models/xgboost.yml'
+	# xgboost_config_path = 'configs/base_models/xgboost.yml'
 	# lightgbm_config_path = 'configs/base_models/lightgbm.yml'
-	# catboost_config_path = 'configs/base_models/catboost.yml'
+	catboost_config_path = 'configs/base_models/catboost.yml'
 
-	train_xgboost_model(xgboost_config_path)
+	# train_xgboost_model(xgboost_config_path)
 	# train_lightgbm_model(lightgbm_config_path)
-	# train_catboost_model(catboost_config_path)
+	train_catboost_model(catboost_config_path)

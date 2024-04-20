@@ -5,6 +5,7 @@ from sklearn.metrics import mean_squared_error
 import pandas as pd
 import pickle
 import os
+import optuna
 
 
 class LightGBMModel:
@@ -12,42 +13,51 @@ class LightGBMModel:
 		with open(config_path, 'r') as file:
 			self.config = yaml.safe_load(file)
 
-	def train(self, X_train, y_train):
-		model_params = self.config['lightgbm_model']['parameters']
+	def objective(self, trial, X_train, y_train, X_val, y_val):
+		param_grid = self.config['lightgbm_model']['hyperparameter_tuning']['param_grid']
+		params = {
+            'objective': 'regression',
+            'metric': 'rmse',
+            'verbosity': -1,
+            'boosting_type': 'gbdt',
+            'num_leaves': trial.suggest_int('num_leaves', 18, 50),
+            'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.2),
+            'n_estimators': trial.suggest_int('n_estimators', 5000, 7000),
+            'subsample': trial.suggest_float('subsample', 0.6, 0.9),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 0.9),
+            'reg_alpha': trial.suggest_float('reg_alpha', 0, 1.5),
+            'reg_lambda': trial.suggest_float('reg_lambda', 0, 1),
+            'cat_smooth': trial.suggest_int('cat_smooth', 12, 20),
+            'min_child_samples': trial.suggest_int('min_child_samples', 15, 30),
+            'max_depth': trial.suggest_int('max_depth', 1, 4),
+            'random_state': 149
+        }
+		model = lgb.LGBMRegressor(**params)
+		model.fit(X_train, y_train, eval_set = [(X_val, y_val)])
+		y_pred = model.predict(X_val)
+		rmse = mean_squared_error(y_val, y_pred, squared = False)
+		return rmse
+	
+
+	
+
+	def train(self, X_train, y_train) :
 		train_parameters = self.config['lightgbm_model']['train_params']
 
-		# Splitting the data into training and validation sets
 		X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size = 0.2, random_state = 149)
 
-		self.model = lgb.LGBMRegressor(force_col_wise=True, verbosity = 2, early_stopping_round=10 ,**model_params)
-		
-
 		if self.config['lightgbm_model']['hyperparameter_tuning']['enable']:
-			param_grid = self.config['lightgbm_model']['hyperparameter_tuning']['param_grid']
-			n_iter = self.config['lightgbm_model']['hyperparameter_tuning']['n_iter']
-			scoring = self.config['lightgbm_model']['hyperparameter_tuning']['scoring']
-			random_state = self.config['lightgbm_model']['hyperparameter_tuning']['random_state']
+			n_trials = self.config['lightgbm_model']['hyperparameter_tuning']['n_iter']
+			study = optuna.create_study(direction = 'minimize')
+			study.optimize(lambda trial: self.objective(trial, X_train, y_train, X_val, y_val), n_trials = n_trials)
+			best_params = study.best_params
+			self.model = lgb.LGBMRegressor(**best_params)
+			self.model.fit(X_train, y_train, eval_set = [(X_val, y_val)])
+		else:
+			print(f"Hyperparameter tuning is disabled")
 
-			kf = KFold(n_splits = 10, shuffle = True, random_state = random_state)
 
-			self.model = RandomizedSearchCV(
-				estimator=self.model,
-				param_distributions =  param_grid,
-				n_iter = n_iter,
-				scoring = scoring,
-				cv = kf,
-				random_state = random_state,
-				verbose = 2,
-				
-			)
 
-		fit_params = {
-			# 'early_stopping_rounds': train_parameters['early_stopping_rounds'],
-			'eval_set': [(X_val, y_val)],
-			# 'verbose': train_parameters['verbose']
-		}
-
-		self.model.fit(X_train, y_train,  eval_set= [(X_val, y_val)])
 
 	def save_model(self):
 		directory = self.config['lightgbm_model']['model_saving']['directory']

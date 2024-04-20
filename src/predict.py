@@ -15,13 +15,18 @@ def predict(model_path, test_data_path):
 	return predictions
 
 if __name__=='__main__':
-	model_path = 'outputs/models/tuned_xgboost_model.pkl'
-	# model_path = 'outputs/models/tuned_lightgbm_model.pkl'
 	test_data_path = 'data/processed/Test_data_engineered.csv'
 
+	# model_path = 'outputs/models/tuned_xgboost_model.pkl'
+	# model_path = 'outputs/models/tuned_lightgbm_model.pkl'
+	model_path = 'outputs/models/tuned_catboost_model.pkl'
+	
+
 	predictions = predict(model_path, test_data_path)
-	output_path = 'outputs/predictions/xgboost_predictions.csv'
+	
+	# output_path = 'outputs/predictions/xgboost_predictions.csv'
 	# output_path = 'outputs/predictions/lightgbm_predictions.csv'
+	output_path = 'outputs/predictions/catboost_predictions.csv'
 
 	pd.DataFrame({'pm2_5': predictions}).to_csv(output_path, index=False)
 
