@@ -31,6 +31,10 @@ class XGBoostModel:
 		y_pred = model.predict(X_val)
 		rmse = mean_squared_error(y_val, y_pred, squared=False)
 		return rmse
+	
+	# def predict(self, X_val) :
+	# 	return self.model.predict(X_val)
+		 
 
 
 
@@ -52,6 +56,7 @@ class XGBoostModel:
 		self.model = xgb.XGBRegressor(**model_params)
 
 		self.model.fit(X_train, y_train, eval_set = [(X_val, y_val)], **train_params)
+
 
 
 	def save_model(self):

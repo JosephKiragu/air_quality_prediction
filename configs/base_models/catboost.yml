@@ -2,13 +2,13 @@ catboost_model:
   parameters:
     bootstrap_type: 'Bernoulli'
     verbose: True
-    n_estimators: 1120
+    n_estimators: 1100
     od_wait: 50
-    learning_rate: 0.09
+    learning_rate: 0.05
     reg_lambda: 55
     subsample: 0.8
     random_strength: 12
-    depth: 6
+    max_depth: 6
     min_data_in_leaf: 1
     leaf_estimation_iterations: 8
     loss_function: 'RMSE'
@@ -24,7 +24,7 @@ catboost_model:
     param_grid:
       n_estimators: [1100, 1500]
       learning_rate: [0.01, 0.05]
-      depth: [6, 8]
+      max_depth: [6, 8]
       subsample: [0.8, 1.0]
       reg_lambda: [55, 66]
     cv: 5

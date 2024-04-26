@@ -1,17 +1,17 @@
 xgboost_model:
   parameters:
     max_depth: 6
-    min_child_weight: 1
-    learning_rate: 0.3
-    n_estimators: 100
+    min_child_weight: 4
+    learning_rate: 0.04542182599909472
+    n_estimators: 2991
     objective: 'reg:squarederror'
     booster: 'gbtree'
-    gamma: 0
-    subsample: 0.8
-    colsample_bytree: 0.4
+    gamma: 0.22211650108473158
+    subsample: 0.7740803440010428
+    colsample_bytree: 0.7405356087943411
     colsample_bylevel: 1
-    reg_alpha: 75
-    reg_lambda: 19
+    reg_alpha: 94
+    reg_lambda: 27
     scale_pos_weight: 1
     base_score: 0.5
     random_state: 149
@@ -42,9 +42,7 @@ xgboost_model:
   output:
     model_output_path: 'output/models/xgboost_model.pkl'
     prediction_output_path: 'output/predictions/xgboost_predictions.csv'
-  perfomances:
-    eval_metric: 'rmse'
-    # early_stopping_rounds: 10
+
 
   model_saving:
     enable: True

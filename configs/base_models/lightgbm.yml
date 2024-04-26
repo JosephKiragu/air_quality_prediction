@@ -3,38 +3,39 @@ lightgbm_model:
     objective: 'regression'
     metric: 'rmse'
     boosting_type: 'gbdt'
-    num_leaves: 26
-    learning_rate: 0.006
-    n_estimators: 6257
-    subsample: 0.7
-    colsample_bytree: 0.7
-    reg_alpha: 0.8
-    reg_lambda: 0.8
-    cat_smooth: 16
-    min_child_samples: 20
-    max_depth: 2
+    num_leaves: 30
+    learning_rate: 0.013125939627011885
+    n_estimators: 5354
+    subsample: 0.7333462628362206
+    colsample_bytree: 0.7939955572331225
+    reg_alpha: 0.4873825035183108
+    reg_lambda: 0.2644345188454626
+    cat_smooth: 17
+    min_child_samples: 25
+    max_depth: 4
     random_state: 149
     
   train_params:
-    early_stopping_rounds: 50
-    verbose: True
+    # early_stopping_rounds: 50
+    # verbose: True
 
   hyperparameter_tuning:
     enable: True
-    method: 'random_search'
+    method: 'grid_search'
     n_iter: 50
     param_grid:
-      num_leaves: [18,31,50]
-      learning_rate: [0, 0.05, 0.1, 0.2]
-      n_estimators: [5000, 7000]
-      subsample: [0.6, 0.7, 0.8, 0.9]
-      colsample_bytree: [0.6, 0.7, 0.8, 0.9]
-      reg_alpha: [0, 1.5]
-      reg_lambda: [0, 0.1, 0.5, 1]
-      cat_smooth: [12, 20]
-      min_child_samples: [15, 30]
-      max_depth: [1, 4]
+      num_leaves: [25,30]
+      learning_rate: [0.01, 0.006]
+      n_estimators: [6000, 7000]
+      subsample: [0.6, 0.7]
+      colsample_bytree: [0.7, 0.8]
+      reg_alpha: [1, 0.8]
+      reg_lambda: [1, 0.8]
+      cat_smooth: [15, 17]
+      min_child_samples: [10, 19]
+      max_depth: [2, 6]
     scoring: 'neg_mean_squared_error'
+    verbose: -1
     random_state: 149
 
   train:

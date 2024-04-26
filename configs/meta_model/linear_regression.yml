@@ -1,0 +1,42 @@
+# Model parameters
+model_params:
+  fit_intercept: True
+  # normalize: False
+  copy_X: True
+  n_jobs: 0
+  positive: False
+
+# regularization parameters
+regularization:
+  type: null
+  alpha: 0.1
+
+#solver parameters
+solver:
+  type: auto
+  max_iter: 1000
+  tol: 1e-4
+  warm_start: False
+
+cross_validation:
+  cv: 5
+  scoring: neg_root_mean_squared_error
+  # n_jobs: 0
+  return_train_score: True
+
+feature_selection:
+  method: null
+  k: null
+
+preprocessing:
+  scale: False
+  normalize: False
+  transform: null
+
+output:
+  model_path: outputs/meta_model/linear_regression_model.pkl
+  coefficients: True
+  intercept: True
+  feature_names: True
+  cv_results: True
+  feature_importance: False

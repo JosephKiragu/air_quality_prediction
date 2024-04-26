@@ -18,7 +18,7 @@ for models in model_list:
 	model = load_model(model_path)
 	model_parameters = get_model_parameters(model)
 	# save parameters to in a txt file in tabular format
-	with open('outputs/model weights/model_parameters.txt', 'a') as file:
+	with open('outputs/model weights/trained_model_parameters.txt', 'a') as file:
 		file.write(f"Model parameters for {models}: {model_parameters}")
 		# put in next row
 		file.write(" \n")
