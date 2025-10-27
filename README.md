@@ -74,7 +74,7 @@ The initial dataset contains **80 columns** describing satellite and atmospheric
 
 ##  Modeling Approach
 
-- **Model family:** Gradient boosting (e.g., **CatBoost**, XGBoost, LightGBM).  
+- **Model family:** Gradient boosting ( CatBoost, XGBoost, LightGBM).  
 - **Inputs:** AOD, trace-gas columns, meteorological variables, geometry (zenith/azimuth angles).  
 - **Targets:** Ground-truth PM2.5 concentrations.  
 - **Validation:** K-fold, city-wise, and leave-one-station-out cross-validation.  
