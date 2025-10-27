@@ -96,28 +96,43 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Train model
+## Quickstart
 ```
-python -m src.train \
-  --config configs/catboost.yaml \
-  --out outputs/models/catboost.pkl
-```
+# 🧱 1. Run feature engineering
+make run-fe
+# → Executes src/data_preprocessing/feature_engineer.py
+# → Output: processed datasets ready for training
 
+# 🧠 2. Train base model(s)
+make train
+# → Executes src/train.py
 
-## Evaluate
-```
-python -m src.evaluate \
-  --model outputs/models/catboost.pkl \
-  --test data/processed/test.parquet \
-  --metrics_out outputs/metrics/catboost.json
-```
+# 🧩 3. Create meta-features & train meta-model (stacking/blending)
+make train-meta
+# → Runs src/meta_features.py then src/train_meta_model.py
 
-## Generate submission
-```
-python create_submission.py \
-  --model outputs/models/catboost.pkl \
-  --input data/processed/predict.parquet \
-  --out outputs/submissions/predictions.csv
+# 🔮 4. Generate predictions
+make predict
+# → Executes src/predict.py
+
+# 🧾 5. Generate base-model predictions only
+make predict-base
+# → Executes src/base_model_predictions.py
+
+# 📤 6. Create submission file
+make submit
+# → Executes create_submission.py and writes to outputs/submissions/
+
+# 🧹 7. Clean artifacts
+make clean-models         # remove trained models
+make clean-predictions    # remove prediction files
+make clean-processed      # remove processed data
+make clean-submission     # remove submission files
+make clean                # run all clean tasks at once
+
+# 🚀 8. Run everything (feature engineering → training → prediction)
+make all
+
 ```
 
 ## ⚖️ Evaluation Criteria
